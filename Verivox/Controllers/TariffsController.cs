@@ -20,7 +20,7 @@
         /// <returns>The <see cref="Task{IEnumerable{string}}"/></returns>
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<string>> GetTariffs()
+        public async Task<IEnumerable<string>> GetTariffsAsync()
         {
             return await Task.FromResult(Enum.GetNames(typeof(TariffType)));
         }

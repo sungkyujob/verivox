@@ -35,7 +35,7 @@
         public void GetTariffsAsyncTest()
         {
             var tariffs = Enum.GetNames(typeof(TariffType));
-            var result = _controller.GetTariffs().Result as string[];
+            var result = _controller.GetTariffsAsync().Result as string[];
             CollectionAssert.AreEqual(tariffs, result);
         }
 
