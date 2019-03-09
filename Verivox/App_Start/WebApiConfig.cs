@@ -1,9 +1,17 @@
 ﻿namespace Verivox
 {
-    using System.Web.Http;
     using CustomFilters;
+    using System.Web.Http;
+
+    /// <summary>
+    /// Defines the <see cref="WebApiConfig" />
+    /// </summary>
     public static class WebApiConfig
     {
+        /// <summary>
+        /// The Register
+        /// </summary>
+        /// <param name="config">The config<see cref="HttpConfiguration"/></param>
         public static void Register(HttpConfiguration config)
         {
             WebApiFormatter.SetFormat(config);
@@ -13,6 +21,10 @@
             SetDefaultRoute(config);
         }
 
+        /// <summary>
+        /// The SetDefaultRoute
+        /// </summary>
+        /// <param name="config">The config<see cref="HttpConfiguration"/></param>
         private static void SetDefaultRoute(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(name: "Default", routeTemplate: "",

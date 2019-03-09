@@ -1,12 +1,19 @@
 ﻿namespace Verivox.Test.Controllers
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Factories.Tariffs;
     using Factories;
+    using Factories.Tariffs;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    /// <summary>
+    /// Defines the <see cref="TariffFactoryTest" />
+    /// </summary>
     [TestClass]
     public class TariffFactoryTest
     {
+        /// <summary>
+        /// The GetTariffTest
+        /// </summary>
+        /// <param name="tariff">The tariff<see cref="TariffType"/></param>
         [TestMethod]
         [DataRow(TariffType.Basic)]
         [DataRow(TariffType.Package)]
