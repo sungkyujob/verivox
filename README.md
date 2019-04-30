@@ -47,6 +47,20 @@ GET /tariffs/consumption/{consumption}
 [{"name":"Package","cost":800.0},{"name":"Basic","cost":830.00}]
 ```
 
+### Get electricity cost for all tariffs
+This endpoint is used to compare annual electricity cost for all available tariffs.
+
+*Request*
+```text
+Request
+GET /tariffs/consumption/perf/{original|suggestion}/{consumption}
+```
+*Response*
+```text
+200 OK
+{"calc_name":"original","elapsed_milliseconds":484}
+```
+
 ### Get electricity cost with selected tariff
 This endpoint is used to calculate annual electricity cost with selected tariff.
 
