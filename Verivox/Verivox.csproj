@@ -194,6 +194,7 @@
     <Compile Include="Models\Log\RequestLog.cs" />
     <Compile Include="Models\Log\Response.cs" />
     <Compile Include="Models\Log\Request.cs" />
+    <Compile Include="Models\TariffMeasure.cs" />
     <Compile Include="Models\Tariff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

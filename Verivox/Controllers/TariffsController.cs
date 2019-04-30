@@ -5,6 +5,7 @@
     using Models;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading.Tasks;
     using System.Web.Http;
 
@@ -50,17 +51,67 @@
             return await Task.FromResult(GetTariffCost(tariff_name, consumption));
         }
 
-        /// <summary>
-        /// The GetAllTariffCost
-        /// </summary>
-        /// <param name="consumption">The consumption<see cref="int"/></param>
-        /// <returns>The <see cref="IEnumerable{Tariff}"/></returns>
+        [HttpGet]
+        [Route("consumption/perf/{calc_type:regex(^(original|suggestion)$)}/{consumption:min(0)}")]
+        public async Task<TariffCalcMeasure> Perf(string calc_type, int consumption)
+        {
+            TariffCalcMeasure tm = new TariffCalcMeasure();
+            var sw = Stopwatch.StartNew();
+            tm.CalcName = calc_type;
+            if (calc_type.ToLower().Equals("original"))
+            {
+                GetAllTariffCostPerfOriginal(consumption);
+            }
+            else
+            {
+                GetAllTariffCostPerfSuggestion(consumption);
+            }
+            sw.Stop();
+            tm.ElapsedMilliseconds = sw.ElapsedMilliseconds;
+            return await Task.FromResult(tm);
+        }
+
+        public IEnumerable<Tariff> GetAllTariffCostPerfOriginal(int consumption)
+        {
+            Random random = new Random();
+            List<Tariff> tariffs = new List<Tariff>();
+            while (consumption > 0)
+            {
+                foreach (TariffType tariff in Enum.GetValues(typeof(TariffType)))
+                {
+                    var t = TariffFactory.GetTariff(tariff).Calculate(consumption);
+                    t.Cost += random.Next(0, 100000);
+                    tariffs.Add(t);
+                }
+                consumption--;
+            }
+            tariffs.Sort((x, y) => (x.Cost > y.Cost) ? 1 : 0);
+            return tariffs;
+        }
+        public IEnumerable<Tariff> GetAllTariffCostPerfSuggestion(int consumption)
+        {
+            Random random = new Random();
+            SortedList<decimal, Tariff> tariffs = new SortedList<decimal, Tariff>();
+            while (consumption > 0)
+            {
+                foreach (TariffType tariff in Enum.GetValues(typeof(TariffType)))
+                {
+                    var t = TariffFactory.GetTariff(tariff).Calculate(consumption);
+                    t.Cost += random.Next(0, 100000);
+                    tariffs[t.Cost] =  t;
+                }
+                consumption--;
+            }
+            return tariffs.Values;
+        }
+
         public IEnumerable<Tariff> GetAllTariffCost(int consumption)
         {
             List<Tariff> tariffs = new List<Tariff>();
             foreach (TariffType tariff in Enum.GetValues(typeof(TariffType)))
             {
-                tariffs.Add(TariffFactory.GetTariff(tariff).Calculate(consumption));
+                var t = TariffFactory.GetTariff(tariff).Calculate(consumption);
+                tariffs.Add(t);
             }
             tariffs.Sort((x, y) => (x.Cost > y.Cost) ? 1 : 0);
             return tariffs;
