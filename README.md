@@ -47,7 +47,7 @@ GET /tariffs/consumption/{consumption}
 [{"name":"Package","cost":800.0},{"name":"Basic","cost":830.00}]
 ```
 
-### Get electricity cost for all tariffs
+### Get electricity cost for all tariffs (compared between list&sort vs. sortedlist)
 This endpoint is used to compare annual electricity cost for all available tariffs.
 
 *Request*
